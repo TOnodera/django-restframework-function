@@ -3,7 +3,7 @@ FROM python:3.8.3-buster
 RUN apt-get update && apt-get install -y bash git 
 
 RUN pip install flake8 autopep8 pymysql uwsgi mysqlclient pyyaml \ 
-    && pip install Django==2.2.* djangorestframework==3.12.*
+    && pip install Django==2.2.* djangorestframework==3.12.* django-filter
 
 WORKDIR /home/python/app
 RUN useradd -u 1000 -o python && \
