@@ -4,4 +4,4 @@ from .models import Library
 class LibrarySerializer(serializers.ModelSerializer):
     class Meta:
         model = Library
-        fields = '__all__'
+        fields = ('name', 'description')
