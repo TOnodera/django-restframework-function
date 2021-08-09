@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import LibraryAPIView
+from .views import LibraryAPIView, LibraryListAPIView
 
 urlpatterns = [
-    path('library/', LibraryAPIView.as_view())
+    path('library/create', LibraryAPIView.as_view()),
+    path('library/', LibraryListAPIView.as_view())
 ]
