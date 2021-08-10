@@ -8,7 +8,7 @@ from .serializers import LibrarySerializer
 from django_filters import rest_framework as filters
 from django.shortcuts import get_object_or_404
 from .models import Library
-
+from drf_yasg.utils import swagger_auto_schema
 
 class LibraryFilter(filters.FilterSet):
     class Meta:
@@ -17,6 +17,9 @@ class LibraryFilter(filters.FilterSet):
 
 class LibraryCreateAPIView(views.APIView):
 
+    @swagger_auto_schema(
+        request_body=LibrarySerializer
+    )
     def post(self, request: Request, *args, **kwargs):
         serializer = LibrarySerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -25,6 +28,9 @@ class LibraryCreateAPIView(views.APIView):
 
 class LibraryListAPIView(views.APIView):
 
+    @swagger_auto_schema(
+
+    )
     def get(self, request: Request, *args, **kwargs):
 
         filterset = LibraryFilter(request.query_params, queryset=Library.objects.all())
@@ -34,6 +40,9 @@ class LibraryListAPIView(views.APIView):
         return Response(serializer.data, status.HTTP_200_OK)
 
 class LibraryRetriveAPIView(views.APIView):
+    @swagger_auto_schema(
+
+    )
     def get(self, request: Request, pk: int, *args, **kwargs):
         library = get_object_or_404(Library, pk=pk)
         serializer = LibrarySerializer(instance=library)
@@ -41,6 +50,9 @@ class LibraryRetriveAPIView(views.APIView):
 
 class LibraryUpdateAPIView(views.APIView):
     # 更新
+    @swagger_auto_schema(
+        request_body=LibrarySerializer
+    )
     def put(self, request: Request, pk: int, *args, **kwargs):
         library = get_object_or_404(Library, pk=pk)
         serializer = LibrarySerializer(instance=library, data=request.data)
@@ -49,6 +61,9 @@ class LibraryUpdateAPIView(views.APIView):
         return Response(serializer.data, status.HTTP_200_OK)
 
     # 部分更新（渡された値だけ更新する）
+    @swagger_auto_schema(
+        request_body=LibrarySerializer
+    )
     def patch(self, request: Request, pk: int, *args, **kwargs):
         library = get_object_or_404(Library, pk=pk)
         serializer = LibrarySerializer(instance=library, data=request.data, partial=True)
@@ -57,6 +72,9 @@ class LibraryUpdateAPIView(views.APIView):
         return Response(serializer.data, status.HTTP_200_OK)
 
 class LibraryDestroyAPIView(views.APIView):
+    @swagger_auto_schema(
+        request_body=LibrarySerializer
+    )
     def delete(self, request: Request, pk: int, *args, **kwargs):
         library = get_object_or_404(Library, pk=pk)
         library.delete()

@@ -23,7 +23,7 @@ from drf_yasg import openapi
 # Swagger API
 schema_view = get_schema_view(
     openapi.Info(
-        title='Snippets API',
+        title='図書館 API',
         default_version='v1'
     ),
     public=True,
