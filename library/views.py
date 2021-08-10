@@ -4,10 +4,10 @@ from rest_framework import fields, serializers, status, views
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.request import Request
-from .serializers import LibrarySerializer
+from .serializers import LibrarySerializer, BookSerializer
 from django_filters import rest_framework as filters
 from django.shortcuts import get_object_or_404
-from .models import Library
+from .models import Library, Book
 from drf_yasg.utils import swagger_auto_schema
 
 class LibraryFilter(filters.FilterSet):
@@ -79,3 +79,16 @@ class LibraryDestroyAPIView(views.APIView):
         library = get_object_or_404(Library, pk=pk)
         library.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class BookCreateAPIView(views.APIView):
+    @swagger_auto_schema(
+        request_body=BookSerializer
+    )
+    def post(self, request: Request, *args, **kwargs):
+        library = get_object_or_404(Library, pk=request.data['library_id'])
+        book = Book(title=request.data['title'], description=request.data['description'], library=library)
+        serializer = BookSerializer(data=request.data)
+        serializer.is_valid()
+        serializer.save()
+        return Response(serializer.data, status.HTTP_201_CREATED)
